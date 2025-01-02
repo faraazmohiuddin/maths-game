@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Simple Math Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0; 
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f0f0f0;
+      height: 100vh; 
+    }
+    .screen {
+      display: none;
+      background: #ffffff;
+      padding: 2rem;
+      border-radius: 8px;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .screen.active {
+      display: block;
+    }
+    h1 {
+      margin-top: 0;
+    }
+    .input-field {
+      margin: 1rem 0;
+    }
+    .input-field input {
+      padding: 0.5rem;
+      font-size: 1rem;
+      width: 80%;
+      max-width: 250px;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+      background: #4285f4;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+    }
+    button:hover {
+      background: #2b67c2;
+    }
+    .result {
+      font-weight: bold;
+      margin-top: 1rem;
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SCREEN 1: Welcome & player name -->
+  <div id="screen1" class="screen active">
+    <h1>Welcome to the Game!</h1>
+    <p>Enter your name or team name below:</p>
+    <div class="input-field">
+      <input type="text" id="playerName" placeholder="Your name here" />
+    </div>
+    <button onclick="goToScreen2()">Start</button>
+  </div>
+
+  <!-- SCREEN 2: Simple Math Question -->
+  <div id="screen2" class="screen">
+    <h1 id="welcomePlayer">Hello!</h1>
+    <p>Solve this math question:</p>
+    <h2>What is 5 + 3?</h2>
+    <div class="input-field">
+      <input type="number" id="answer" placeholder="Enter your answer" />
+    </div>
+    <button onclick="checkAnswer()">Check Answer</button>
+  </div>
+
+  <!-- SCREEN 3: Result -->
+  <div id="screen3" class="screen">
+    <h1>Results</h1>
+    <div class="result" id="resultMsg"></div>
+    <button onclick="restart()">Play Again</button>
+  </div>
+
+  <script>
+    let playerName = '';
+
+    // Go from Screen 1 -> Screen 2
+    function goToScreen2() {
+      const nameField = document.getElementById("playerName");
+      if (nameField.value.trim() === '') {
+        alert("Please enter a name before continuing!");
+        return;
+      }
+      playerName = nameField.value.trim();
+      document.getElementById("screen1").classList.remove("active");
+      document.getElementById("screen2").classList.add("active");
+      document.getElementById("welcomePlayer").textContent = "Hello, " + playerName + "!";
+    }
+
+    // Check the answer and move to Screen 3
+    function checkAnswer() {
+      const userAnswer = document.getElementById("answer").value;
+      // The correct answer is 8
+      const correctAnswer = 8;
+      let resultText = '';
+
+      if (parseInt(userAnswer, 10) === correctAnswer) {
+        resultText = "Correct answer, " + playerName + "!";
+      } else {
+        resultText = "Wrong answer, " + playerName + ". Try again!";
+      }
+
+      document.getElementById("resultMsg").textContent = resultText;
+      document.getElementById("screen2").classList.remove("active");
+      document.getElementById("screen3").classList.add("active");
+    }
+
+    // Restart the game
+    function restart() {
+      // Clear input fields
+      document.getElementById("playerName").value = "";
+      document.getElementById("answer").value = "";
+
+      // Hide all screens
+      document.getElementById("screen1").classList.remove("active");
+      document.getElementById("screen2").classList.remove("active");
+      document.getElementById("screen3").classList.remove("active");
+
+      // Show first screen again
+      document.getElementById("screen1").classList.add("active");
+    }
+  </script>
+</body>
+</html>
